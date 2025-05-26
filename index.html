@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Университет будущего - Обучение в вузе</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 2.5rem;
+            height: calc(100% - 2.5rem);
+            width: 2px;
+            background-color: #3b82f6;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Навигационная панель -->
+    <nav class="bg-blue-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-graduation-cap text-2xl"></i>
+                <a href="#" onclick="showPage('home')" class="text-xl font-bold hover:text-blue-200 transition">Университет Будущего</a>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" onclick="showPage('home')" class="hover:text-blue-200 transition">Главная</a>
+                <div class="dropdown relative">
+                    <button class="hover:text-blue-200 transition flex items-center">
+                        Программы <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white text-blue-700 mt-2 py-2 w-48 rounded shadow-lg z-50">
+                        <a href="#" onclick="showPage('bachelor')" class="block px-4 py-2 hover:bg-blue-50">Бакалавриат</a>
+                        <a href="#" onclick="showPage('master')" class="block px-4 py-2 hover:bg-blue-50">Магистратура</a>
+                        <a href="#" onclick="showPage('phd')" class="block px-4 py-2 hover:bg-blue-50">Аспирантура</a>
+                    </div>
+                </div>
+                <a href="#" onclick="showPage('faculties')" class="hover:text-blue-200 transition">Факультеты</a>
+                <a href="#" onclick="showPage('teachers')" class="hover:text-blue-200 transition">Преподаватели</a>
+                <a href="#" onclick="showPage('news')" class="hover:text-blue-200 transition">Новости</a>
+                <a href="#" onclick="showPage('contacts')" class="hover:text-blue-200 transition">Контакты</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" onclick="showPage('login')" class="hover:text-blue-200 transition hidden md:block">Вход</a>
+                <a href="#" onclick="showPage('register')" class="bg-white text-blue-700 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition">Регистрация</a>
+                <button id="mobile-menu-button" class="md:hidden text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Мобильное меню -->
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-800 px-4 py-2">
+            <a href="#" onclick="showPage('home')" class="block py-2 hover:text-blue-200">Главная</a>
+            <a href="#" onclick="showPage('bachelor')" class="block py-2 hover:text-blue-200">Бакалавриат</a>
+            <a href="#" onclick="showPage('master')" class="block py-2 hover:text-blue-200">Магистратура</a>
+            <a href="#" onclick="showPage('phd')" class="block py-2 hover:text-blue-200">Аспирантура</a>
+            <a href="#" onclick="showPage('faculties')" class="block py-2 hover:text-blue-200">Факультеты</a>
+            <a href="#" onclick="showPage('teachers')" class="block py-2 hover:text-blue-200">Преподаватели</a>
+            <a href="#" onclick="showPage('news')" class="block py-2 hover:text-blue-200">Новости</a>
+            <a href="#" onclick="showPage('contacts')" class="block py-2 hover:text-blue-200">Контакты</a>
+            <a href="#" onclick="showPage('login')" class="block py-2 hover:text-blue-200">Вход</a>
+        </div>
+    </nav>
+
+    <!-- Главная страница -->
+    <div id="home" class="page active">
+        <header class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-20">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Добро пожаловать в Университет Будущего</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">Инновационное образование для лидеров завтрашнего дня</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#" onclick="showPage('register')" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition">Подать заявку</a>
+                    <a href="#" onclick="showPage('faculties')" class="bg-transparent border-2 border-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-700 transition">Наши факультеты</a>
+                </div>
+            </div>
+        </header>
+
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">Почему выбирают нас?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Опытные преподаватели</h3>
+                        <p class="text-gray-600">Более 80% наших преподавателей имеют ученые степени и практический опыт в своих областях.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Современные технологии</h3>
+                        <p class="text-gray-600">Используем передовые образовательные технологии и цифровые платформы для обучения.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Партнерства с компаниями</h3>
+                        <p class="text-gray-600">Тесное сотрудничество с ведущими компаниями для стажировок и трудоустройства выпускников.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">Наши программы</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="course-card bg-white p-6 rounded-lg shadow-sm transition cursor-pointer" onclick="showPage('bachelor')">
+                        <div class="bg-blue-100 text-blue-700 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-user-graduate text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-center">Бакалавриат</h3>
+                        <p class="text-gray-600 text-center mb-4">4 года обучения по современным программам с возможностью выбора специализации.</p>
+                        <div class="text-center">
+                            <span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">от 18 лет</span>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white p-6 rounded-lg shadow-sm transition cursor-pointer" onclick="showPage('master')">
+                        <div class="bg-blue-100 text-blue-700 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-user-tie text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-center">Магистратура</h3>
+                        <p class="text-gray-600 text-center mb-4">2 года углубленного изучения предмета с акцентом на исследовательскую работу.</p>
+                        <div class="text-center">
+                            <span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">от 22 лет</span>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white p-6 rounded-lg shadow-sm transition cursor-pointer" onclick="showPage('phd')">
+                        <div class="bg-blue-100 text-blue-700 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-microscope text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-center">Аспирантура</h3>
+                        <p class="text-gray-600 text-center mb-4">3-4 года научно-исследовательской работы под руководством ведущих ученых.</p>
+                        <div class="text-center">
+                            <span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">от 24 лет</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                        <h2 class="text-3xl font-bold mb-6">О нашем университете</h2>
+                        <p class="text-gray-600 mb-4">Университет Будущего - это инновационное образовательное учреждение, сочетающее традиции классического университетского образования с современными подходами к обучению.</p>
+                        <p class="text-gray-600 mb-6">Основанный в 1995 году, наш университет прошел путь от небольшого института до ведущего образовательного центра страны с более чем 15 000 студентов.</p>
+                        <a href="#" onclick="showPage('about')" class="text-blue-600 font-semibold hover:text-blue-800 transition">Узнать больше <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Университет" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-blue-700 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-6">Готовы начать свое образовательное путешествие?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Присоединяйтесь к тысячам студентов, которые уже выбрали Университет Будущего для реализации своего потенциала.</p>
+                <a href="#" onclick="showPage('register')" class="inline-block bg-white text-blue-700 px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition">Подать заявку сейчас</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Страница бакалавриата -->
+    <div id="bachelor" class="page">
+        <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-2/3 mb-8 md:mb-0">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-4">Бакалавриат</h1>
+                        <p class="text-xl">Первая ступень высшего образования, дающая фундаментальные знания и практические навыки.</p>
+                    </div>
+                    <div class="md:w-1/3 text-right">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Бакалавриат" class="inline-block rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/4 mb-8 md:mb-0">
+                        <div class="sticky top-24">
+                            <h3 class="text-xl font-semibold mb-4">Направления</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#tech" class="text-blue-600 hover:text-blue-800">Технические науки</a></li>
+                                <li><a href="#human" class="text-blue-600 hover:text-blue-800">Гуманитарные науки</a></li>
+                                <li><a href="#natural" class="text-blue-600 hover:text-blue-800">Естественные науки</a></li>
+                                <li><a href="#economics" class="text-blue-600 hover:text-blue-800">Экономика и управление</a></li>
+                                <li><a href="#arts" class="text-blue-600 hover:text-blue-800">Искусство и дизайн</a></li>
+                            </ul>
+                            <div class="mt-8">
+                                <a href="#" onclick="showPage('register')" class="block bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition">Подать заявку</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                        <div class="mb-12" id="tech">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Технические науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Информатика и вычислительная техника</h3>
+                                    <p class="text-gray-600 mb-4">Программа готовит специалистов в области разработки программного обеспечения, анализа данных и искусственного интеллекта.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Строительство</h3>
+                                    <p class="text-gray-600 mb-4">Обучение современным методам проектирования и строительства зданий и сооружений с учетом экологических стандартов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Электротехника и электроника</h3>
+                                    <p class="text-gray-600 mb-4">Программа охватывает проектирование, анализ и применение электрических и электронных систем.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Машиностроение</h3>
+                                    <p class="text-gray-600 mb-4">Подготовка инженеров в области проектирования, производства и эксплуатации машин и оборудования.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="human">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Гуманитарные науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Психология</h3>
+                                    <p class="text-gray-600 mb-4">Изучение человеческого поведения, психических процессов и методов психологической помощи.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Международные отношения</h3>
+                                    <p class="text-gray-600 mb-4">Программа готовит специалистов в области дипломатии, международной политики и экономики.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Журналистика</h3>
+                                    <p class="text-gray-600 mb-4">Обучение современным медиатехнологиям, основам журналистского мастерства и медиапроизводства.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Филология</h3>
+                                    <p class="text-gray-600 mb-4">Изучение языка, литературы и культуры с возможностью выбора специализации (русский, английский, французский).</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="natural">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Естественные науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Биология</h3>
+                                    <p class="text-gray-600 mb-4">Изучение живых организмов, их структуры, функций, роста, происхождения, эволюции и распределения.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Химия</h3>
+                                    <p class="text-gray-600 mb-4">Программа охватывает основные разделы химии с акцентом на практические лабораторные исследования.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Физика</h3>
+                                    <p class="text-gray-600 mb-4">Изучение фундаментальных законов природы и их применений в современных технологиях.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Экология и природопользование</h3>
+                                    <p class="text-gray-600 mb-4">Подготовка специалистов в области охраны окружающей среды и устойчивого развития.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="economics">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Экономика и управление</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Экономика</h3>
+                                    <p class="text-gray-600 mb-4">Изучение экономических теорий, методов анализа и прогнозирования экономических процессов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Менеджмент</h3>
+                                    <p class="text-gray-600 mb-4">Программа готовит руководителей и управленцев для бизнеса и государственных организаций.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Финансы и кредит</h3>
+                                    <p class="text-gray-600 mb-4">Обучение финансовому анализу, инвестициям, банковскому делу и управлению рисками.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Маркетинг</h3>
+                                    <p class="text-gray-600 mb-4">Изучение стратегий продвижения товаров и услуг, анализа рынка и поведения потребителей.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="arts">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Искусство и дизайн</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Графический дизайн</h3>
+                                    <p class="text-gray-600 mb-4">Обучение визуальной коммуникации, типографике, брендингу и цифровому дизайну.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Архитектура</h3>
+                                    <p class="text-gray-600 mb-4">Программа сочетает художественное творчество с инженерными знаниями для проектирования зданий.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 5 лет</span>
+                                        <span class="text-sm font-semibold text-blue-600">400 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Кино и телевидение</h3>
+                                    <p class="text-gray-600 mb-4">Обучение процессам создания кино- и телевизионного контента от идеи до постпродакшна.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Музыкальное искусство</h3>
+                                    <p class="text-gray-600 mb-4">Подготовка профессиональных музыкантов, композиторов и музыкальных педагогов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">320 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8 text-center">Как поступить на бакалавриат?</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative">
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                1
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Выбор программы</h3>
+                            <p class="text-gray-600">Ознакомьтесь с программами бакалавриата и выберите наиболее подходящую для вас. Вы можете выбрать до 3 направлений.</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                2
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Подача документов</h3>
+                            <p class="text-gray-600">Подготовьте и подайте необходимые документы через личный кабинет абитуриента или приемную комиссию.</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                3
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Вступительные испытания</h3>
+                            <p class="text-gray-600">Пройдите вступительные испытания (ЕГЭ, внутренние экзамены или собеседования в зависимости от программы).</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                4
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Зачисление</h3>
+                            <p class="text-gray-600">После объявления результатов подайте оригиналы документов и оплатите обучение (для платных мест).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8 text-center">Часто задаваемые вопросы</h2>
+                <div class="max-w-3xl mx-auto">
+                    <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                            <span class="font-medium">Какие документы нужны для поступления?</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-content hidden p-4 border-t border-gray-200">
+                            <p class="text-gray-600">Для поступления на бакалавриат необходимы:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-600">
+                                <li>Документ о среднем общем или среднем профессиональном образовании (оригинал или копия)</li>
+                                <li>Паспорт (копия)</li>
+                                <li>Фотографии 3×4 (4 шт.)</li>
+                                <li>Результаты ЕГЭ (при наличии)</li>
+                                <li>Документы, подтверждающие индивидуальные достижения (при наличии)</li>
+                                <li>Медицинская справка (для некоторых специальностей)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                            <span class="font-medium">Есть ли бюджетные места?</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-content hidden p-4 border-t border-gray-200">
+                            <p class="text-gray-600">Да, по большинству направлений бакалавриата предусмотрены бюджетные места. Количество бюджетных мест зависит от направления подготовки и определяется ежегодно перед началом приемной кампании. Конкурс на бюджетные места обычно высокий, поэтому рекомендуем также рассматривать платные места.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                            <span class="font-medium">Можно ли перевестись с другого вуза?</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-content hidden p-4 border-t border-gray-200">
+                            <p class="text-gray-600">Да, возможен перевод из другого высшего учебного заведения. Для этого необходимо:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-600">
+                                <li>Подать заявление о переводе</li>
+                                <li>Предоставить академическую справку или зачетную книжку</li>
+                                <li>Пройти аттестационные испытания по разнице в учебных планах</li>
+                                <li>Предоставить документ об образовании</li>
+                            </ul>
+                            <p class="text-gray-600 mt-2">Решение о переводе принимает приемная комиссия факультета после рассмотрения документов.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                            <span class="font-medium">Есть ли общежитие для иногородних студентов?</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-content hidden p-4 border-t border-gray-200">
+                            <p class="text-gray-600">Университет предоставляет места в общежитии для иногородних студентов. Приоритет при заселении имеют:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-600">
+                                <li>Студенты, поступившие на бюджетные места</li>
+                                <li>Сироты и студенты, оставшиеся без попечения родителей</li>
+                                <li>Инвалиды I и II групп</li>
+                                <li>Студенты из малообеспеченных семей</li>
+                            </ul>
+                            <p class="text-gray-600 mt-2">Для получения места в общежитии необходимо подать соответствующее заявление при поступлении.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                            <span class="font-medium">Какие есть варианты оплаты обучения?</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-content hidden p-4 border-t border-gray-200">
+                            <p class="text-gray-600">Оплата обучения возможна несколькими способами:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-600">
+                                <li>Полная оплата за год (предоставляется скидка 5%)</li>
+                                <li>Оплата по семестрам</li>
+                                <li>Оплата в рассрочку (ежемесячными платежами)</li>
+                                <li>С использованием материнского капитала</li>
+                                <li>Через образовательный кредит с государственной поддержкой</li>
+                            </ul>
+                            <p class="text-gray-600 mt-2">Также университет предоставляет скидки от 10% до 50% для студентов с высокими баллами ЕГЭ и победителей олимпиад.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Страница магистратуры -->
+    <div id="master" class="page">
+        <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-2/3 mb-8 md:mb-0">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-4">Магистратура</h1>
+                        <p class="text-xl">Вторая ступень высшего образования, углубляющая профессиональные знания и развивающая исследовательские навыки.</p>
+                    </div>
+                    <div class="md:w-1/3 text-right">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Магистратура" class="inline-block rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/4 mb-8 md:mb-0">
+                        <div class="sticky top-24">
+                            <h3 class="text-xl font-semibold mb-4">Направления</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#tech-m" class="text-blue-600 hover:text-blue-800">Технические науки</a></li>
+                                <li><a href="#human-m" class="text-blue-600 hover:text-blue-800">Гуманитарные науки</a></li>
+                                <li><a href="#natural-m" class="text-blue-600 hover:text-blue-800">Естественные науки</a></li>
+                                <li><a href="#economics-m" class="text-blue-600 hover:text-blue-800">Экономика и управление</a></li>
+                                <li><a href="#arts-m" class="text-blue-600 hover:text-blue-800">Искусство и дизайн</a></li>
+                            </ul>
+                            <div class="mt-8">
+                                <a href="#" onclick="showPage('register')" class="block bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition">Подать заявку</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                        <div class="mb-12" id="tech-m">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Технические науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Искусственный интеллект и машинное обучение</h3>
+                                    <p class="text-gray-600 mb-4">Углубленное изучение алгоритмов машинного обучения, нейронных сетей и их практического применения.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Киберфизические системы</h3>
+                                    <p class="text-gray-600 mb-4">Программа на стыке информатики и инженерии, посвященная созданию интеллектуальных технических систем.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Строительные материалы и технологии</h3>
+                                    <p class="text-gray-600 mb-4">Исследование современных строительных материалов и инновационных технологий в строительстве.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Робототехника и автоматизация</h3>
+                                    <p class="text-gray-600 mb-4">Разработка и программирование роботизированных систем для промышленности и других сфер.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="human-m">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Гуманитарные науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Когнитивная психология</h3>
+                                    <p class="text-gray-600 mb-4">Изучение процессов восприятия, памяти, мышления и принятия решений с использованием современных методов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Международная безопасность</h3>
+                                    <p class="text-gray-600 mb-4">Анализ современных вызовов и угроз в сфере международной безопасности и методов их предотвращения.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Цифровая журналистика</h3>
+                                    <p class="text-gray-600 mb-4">Освоение новых медиаформатов, технологий цифрового сторителлинга и аналитики медиапространства.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Лингвистическая теория и приложения</h3>
+                                    <p class="text-gray-600 mb-4">Исследование языковых явлений и разработка лингвистических технологий для различных приложений.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="natural-m">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Естественные науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Биотехнологии и биоинженерия</h3>
+                                    <p class="text-gray-600 mb-4">Разработка биотехнологических процессов и создание биоматериалов для медицины и промышленности.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Нанохимия и наноматериалы</h3>
+                                    <p class="text-gray-600 mb-4">Исследование свойств наноматериалов и разработка методов их синтеза для различных применений.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Квантовая физика и технологии</h3>
+                                    <p class="text-gray-600 mb-4">Изучение квантовых явлений и разработка квантовых технологий для вычислений, связи и сенсорики.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Экологический менеджмент</h3>
+                                    <p class="text-gray-600 mb-4">Разработка стратегий устойчивого развития и методов управления природопользованием.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="economics-m">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Экономика и управление</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Финансовая аналитика и технологии</h3>
+                                    <p class="text-gray-600 mb-4">Применение современных аналитических методов и технологий в финансовом секторе.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Стратегический менеджмент</h3>
+                                    <p class="text-gray-600 mb-4">Разработка стратегий развития организаций в условиях глобальной конкуренции и цифровизации.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Экономика инноваций</h3>
+                                    <p class="text-gray-600 mb-4">Исследование экономических аспектов инновационных процессов и технологического развития.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Цифровой маркетинг и аналитика</h3>
+                                    <p class="text-gray-600 mb-4">Использование цифровых технологий и big data для маркетинговых стратегий и анализа потребителей.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12" id="arts-m">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Искусство и дизайн</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Интерактивный дизайн и медиаискусство</h3>
+                                    <p class="text-gray-600 mb-4">Создание интерактивных инсталляций, цифрового искусства и иммерсивных медиапроектов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Урбанистика и городское планирование</h3>
+                                    <p class="text-gray-600 mb-4">Разработка концепций развития городской среды с учетом социальных, экологических и культурных аспектов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Кинорежиссура и продюсирование</h3>
+                                    <p class="text-gray-600 mb-4">Создание авторского кино и коммерческих кинопроектов от разработки концепции до постпродакшна.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Музыкальная композиция и технологии</h3>
+                                    <p class="text-gray-600 mb-4">Создание музыкальных произведений с использованием современных технологий и цифровых инструментов.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 2 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">120 кредитов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8 text-center">Как поступить в магистратуру?</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative">
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                1
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Выбор программы</h3>
+                            <p class="text-gray-600">Ознакомьтесь с программами магистратуры и выберите направление, соответствующее вашему бакалаврскому образованию или профессиональным интересам.</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                2
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Подача документов</h3>
+                            <p class="text-gray-600">Подготовьте и подайте необходимые документы, включая диплом бакалавра или специалиста, мотивационное письмо и рекомендации.</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12 pb-8">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                3
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Вступительные испытания</h3>
+                            <p class="text-gray-600">Пройдите вступительные испытания, которые могут включать экзамен по специальности, собеседование или анализ портфолио (для творческих специальностей).</p>
+                        </div>
+                        
+                        <!-- Timeline item -->
+                        <div class="timeline-item relative pl-12">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                                4
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Зачисление</h3>
+                            <p class="text-gray-600">После объявления результатов подайте оригиналы документов и оплатите обучение (для платных мест).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8 text-center">Преимущества магистратуры</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Карьерный рост</h3>
+                        <p class="text-gray-600">Диплом магистра открывает доступ к руководящим должностям и повышает конкурентоспособность на рынке труда.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Научная деятельность</h3>
+                        <p class="text-gray-600">Магистратура - первая ступень научной карьеры, позволяющая продолжить обучение в аспирантуре.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-globe-europe"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Международные возможности</h3>
+                        <p class="text-gray-600">Диплом магистра признается за рубежом и дает возможность участия в международных программах и проектах.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Профессиональные связи</h3>
+                        <p class="text-gray-600">Обучение в магистратуре позволяет расширить профессиональные контакты и войти в сообщество экспертов.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Специализация</h3>
+                        <p class="text-gray-600">Возможность углубленного изучения узкой специализации и приобретения уникальных компетенций.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Финансовые перспективы</h3>
+                        <p class="text-gray-600">Магистры в среднем зарабатывают на 25-40% больше, чем специалисты с дипломом бакалавра.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Страница аспирантуры -->
+    <div id="phd" class="page">
+        <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-2/3 mb-8 md:mb-0">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-4">Аспирантура</h1>
+                        <p class="text-xl">Третья ступень высшего образования, ориентированная на подготовку научных и научно-педагогических кадров.</p>
+                    </div>
+                    <div class="md:w-1/3 text-right">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Аспирантура" class="inline-block rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/4 mb-8 md:mb-0">
+                        <div class="sticky top-24">
+                            <h3 class="text-xl font-semibold mb-4">Направления</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#tech-phd" class="text-blue-600 hover:text-blue-800">Технические науки</a></li>
+                                <li><a href="#human-phd" class="text-blue-600 hover:text-blue-800">Гуманитарные науки</a></li>
+                                <li><a href="#natural-phd" class="text-blue-600 hover:text-blue-800">Естественные науки</a></li>
+                                <li><a href="#economics-phd" class="text-blue-600 hover:text-blue-800">Экономика и управление</a></li>
+                                <li><a href="#arts-phd" class="text-blue-600 hover:text-blue-800">Искусство и дизайн</a></li>
+                            </ul>
+                            <div class="mt-8">
+                                <a href="#" onclick="showPage('register')" class="block bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition">Подать заявку</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                        <div class="mb-12">
+                            <h2 class="text-2xl font-bold mb-6">О программе аспирантуры</h2>
+                            <p class="text-gray-600 mb-6">Аспирантура Университета Будущего - это программа подготовки научных и научно-педагогических кадров высшей квалификации. Обучение в аспирантуре длится 3-4 года в очной форме и 4-5 лет в заочной форме.</p>
+                            <p class="text-gray-600 mb-6">Основная цель аспирантуры - подготовка диссертации на соискание ученой степени кандидата наук под руководством ведущих ученых университета. Аспиранты участвуют в научных исследованиях, публикуют статьи в рецензируемых журналах и выступают на конференциях.</p>
+                            <p class="text-gray-600">По окончании аспирантуры и успешной защите диссертации присваивается ученая степень кандидата наук, которая признается как в России, так и за рубежом.</p>
+                        </div>
+
+                        <div class="mb-12" id="tech-phd">
+                            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">Технические науки</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Информатика и вычислительная техника</h3>
+                                    <p class="text-gray-600 mb-4">Научные исследования в области искусственного интеллекта, больших данных, кибербезопасности и других передовых направлений ИТ.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 3-4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">Очная/заочная</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="text-xl font-semibold mb-2">Машиностроение и материаловедение</h3>
+                                    <p class="text-gray-600 mb-4">Разработка новых материалов и технологий в машиностроении, включая аддитивные технологии и композитные материалы.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Срок: 3-4 года</span>
+                                        <span class="text-sm font-semibold text-blue-600">Очная/заочная</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                                    <h3 class="
+</html>
